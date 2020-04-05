@@ -23,6 +23,6 @@ Develop a quality-focused app that focuses on simplicity and stability while mai
 **MVVM** — For those not familiar with this architecture, this is called Model View ViewModel. Basically, you have your Model (Data), a View (The interface), and a ViewModel for each view. The ViewModel classes will only contain the data from a model  that needs to be presented in that view. This separation allows for the Views to avoid interacting with the model data. The ViewModels should tell the View what to display. Research MVVM in Kotlin for more information.
 
 ### Dependencies Used
-	* N/A
+* N/A
 
 #college/reflector

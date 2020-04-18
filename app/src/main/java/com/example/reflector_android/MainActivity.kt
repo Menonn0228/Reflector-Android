@@ -8,6 +8,9 @@ import android.view.MenuItem
 
 import kotlinx.android.synthetic.main.activity_main.*
 
+
+// Sauce for how Nikhil made the RecyclerView: https://www.youtube.com/watch?v=Jo6Mtq7zkkg
+
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

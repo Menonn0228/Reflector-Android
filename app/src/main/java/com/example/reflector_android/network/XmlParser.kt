@@ -1,7 +1,7 @@
 package com.example.reflector_android
 
 import android.util.Xml
-import com.example.reflector_android.network.Item
+import com.example.reflector_android.network.Article
 import okio.IOException
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -12,7 +12,7 @@ import java.lang.IllegalStateException
 class XmlParser{
     private val ns: String? = null
     @Throws(XmlPullParserException:: class, IOException:: class)
-    fun parse(inputStream: InputStream): List<Item> {
+    fun parse(inputStream: InputStream): List<Article> {
         inputStream.use { inputStream ->
             val parser: XmlPullParser = Xml.newPullParser()
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
@@ -22,8 +22,8 @@ class XmlParser{
         }
     }
 
-    private fun readFeed(parser: XmlPullParser): List<Item>{
-        val items = mutableListOf<Item>()
+    private fun readFeed(parser: XmlPullParser): List<Article>{
+        val items = mutableListOf<Article>()
 
         parser.require(XmlPullParser.START_TAG, ns, "rss")
         parser.nextTag()
@@ -49,7 +49,7 @@ private val ns: String? = null
 // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
 // to their respective "read" methods for processing. Otherwise, skips the tag.
 @Throws(XmlPullParserException::class, java.io.IOException::class)
-fun readItem(parser:XmlPullParser): Item {
+fun readItem(parser:XmlPullParser): Article {
     parser.require(XmlPullParser.START_TAG, ns, "item")
     var title: String? = null
     var description: String? = null
@@ -68,7 +68,7 @@ fun readItem(parser:XmlPullParser): Item {
             else -> skip(parser)
         }
     }
-    return Item(title, description, pubDate, link)
+    return Article(title, description, pubDate, link)
 }
 
 //processes title tag

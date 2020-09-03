@@ -14,10 +14,7 @@ class RSSService {
         client.newCall(request).enqueue(object: Callback {
             override fun onResponse(call: Call, response: Response) {
                 val body = response.body!!.byteStream()
-                val items = test.parse(body)
-                println(items[0].title)
-
-
+                val articles = test.parse(body)
             }
 
             override fun onFailure(call: Call, e: IOException) {

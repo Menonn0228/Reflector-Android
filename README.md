@@ -5,7 +5,7 @@ The following README will contain all necessary information for new developers a
 The Reflector mobile application allows users to view articles posted on [The Reflector](https://www.reflector-online.com/) official website. This project uses **RSS Feeds** from the website to scrape and present data. The RSS feeds are derived from BloxCMS and documentation can for [here](https://help.bloxcms.com/knowledge-base/applications/editorial/assets/tasks/article_504ccd62-2bfd-11e5-8804-131eebdc4425.html) on how to use it.
 
 ## Overall Project Goal for Developers
-Develop a quality-focused app that focuses on simplicity and stability while maintaining a strong code base with detailed documentation within the project. With this goal in mind, we can ensure that future developers will have an easy time jumping in given the simplicity, proper design architecture, and detailed documentation.
+Develop a quality-focused app that radiates with simplicity and stability while maintaining a strong code base with detailed documentation within the project. With this goal in mind, we can ensure that future developers will have an easy time jumping in; and the folks at The Reflector can get an app worth showing to our dawgs.
 
 ## Primary Application Features
 - [ ] User is greeted with the latest articles from the [ Reflector News tab ] and can tap on an article to view the full content of the tapped article.

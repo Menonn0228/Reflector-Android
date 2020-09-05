@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 // Sauce for how Nikhil made the RecyclerView: https://www.youtube.com/watch?v=Jo6Mtq7zkkg
 
@@ -14,7 +16,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        var service = RSSService().fetchNews()
+        GlobalScope.launch {
+            val service = RSSService().fetchNews()
+            println(service[2].description)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -32,5 +37,4 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

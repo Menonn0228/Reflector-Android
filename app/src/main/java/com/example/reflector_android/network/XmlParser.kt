@@ -1,0 +1,139 @@
+package com.example.reflector_android
+
+import android.util.Xml
+import com.example.reflector_android.network.Article
+import okio.IOException
+import org.xmlpull.v1.XmlPullParser
+import org.xmlpull.v1.XmlPullParserException
+import java.io.InputStream
+import java.lang.IllegalStateException
+
+class XmlParser {
+    companion object Tags {
+        const val rss = "rss"
+        const val channel = "channel"
+        const val item = "item"
+        const val title = "title"
+        const val description = "description"
+        const val pubDate = "pubDate"
+        const val link = "link"
+    }
+    private val nameSpace: String? = null
+
+    @Throws(XmlPullParserException::class, IOException::class)
+    suspend fun parse(inputStream: InputStream): MutableList<Article> {
+        inputStream.use { inputStream ->
+            val parser: XmlPullParser = Xml.newPullParser()
+            parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false)
+            parser.setInput(inputStream, null)
+            parser.nextTag()
+            return readFeed(parser)
+        }
+    }
+
+    suspend private fun readFeed(parser: XmlPullParser): MutableList<Article> {
+        val items = mutableListOf<Article>()
+
+        parser.require(XmlPullParser.START_TAG, nameSpace, Tags.rss)
+        parser.nextTag()
+        parser.require(XmlPullParser.START_TAG, nameSpace, Tags.channel)
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
+            //looks for tag
+            if (parser.name == Tags.item) {
+                items.add(readItem(parser))
+            } else {
+                skip(parser)
+            }
+        }
+        return items
+    }
+
+    // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
+    // to their respective "read" methods for processing. Otherwise, skips the tag.
+    @Throws(XmlPullParserException::class, java.io.IOException::class)
+    suspend fun readItem(parser: XmlPullParser): Article {
+        parser.require(XmlPullParser.START_TAG, nameSpace, Tags.item)
+        var title: String? = null
+        var description: String? = null
+        var pubDate: String? = null
+        var link: String? = null
+
+        while (parser.next() != XmlPullParser.END_TAG) {
+            if (parser.eventType != XmlPullParser.START_TAG) {
+                continue
+            }
+            when (parser.name) {
+                Tags.title -> title = readTitle(parser)
+                Tags.description -> description = readDescription(parser)
+                Tags.pubDate -> pubDate = readPubDate(parser)
+                Tags.link -> link = readLink(parser)
+                else -> skip(parser)
+            }
+        }
+        return Article(title, description, pubDate, link)
+    }
+
+    //processes title tag
+    @Throws(java.io.IOException::class, XmlPullParserException::class)
+    private fun readTitle(parser: XmlPullParser): String {
+        parser.require(XmlPullParser.START_TAG, nameSpace, Tags.title)
+        val title = readText(parser)
+        parser.require(XmlPullParser.END_TAG, nameSpace, Tags.title)
+        return title
+    }
+
+    //processes link tags
+    @Throws(java.io.IOException::class, XmlPullParserException::class)
+    private fun readLink(parser: XmlPullParser): String {
+        parser.require(XmlPullParser.START_TAG, nameSpace, Tags.link)
+        val link = readText(parser)
+        parser.require(XmlPullParser.END_TAG, nameSpace, Tags.link)
+        return link
+    }
+
+    @Throws(java.io.IOException::class, XmlPullParserException::class)
+    private fun readPubDate(parser: XmlPullParser): String {
+        parser.require(XmlPullParser.START_TAG, nameSpace, Tags.pubDate)
+        val pubDate = readText(parser)
+        parser.require(XmlPullParser.END_TAG, nameSpace, Tags.pubDate)
+        return pubDate
+    }
+
+    //processes description tag
+    @Throws(java.io.IOException::class, XmlPullParserException::class)
+    private fun readDescription(parser: XmlPullParser): String {
+        parser.require(XmlPullParser.START_TAG, nameSpace, Tags.description)
+        val description = readText(parser)
+        parser.require(XmlPullParser.END_TAG, nameSpace, Tags.description)
+        return description
+    }
+
+    // extracts the text from title and description
+    @Throws(java.io.IOException::class, XmlPullParserException::class)
+    private fun readText(parser: XmlPullParser): String {
+        var result = ""
+        if (parser.next() == XmlPullParser.TEXT) {
+            result = parser.text
+            parser.nextTag()
+        }
+        return result
+    }
+
+    //skips tags we arent interested in
+    @Throws(XmlPullParserException::class, java.io.IOException::class)
+    fun skip(parser: XmlPullParser) {
+        if (parser.eventType != XmlPullParser.START_TAG) {
+            throw IllegalStateException()
+        }
+        var depth = 1
+        while (depth != 0) {
+            when (parser.next()) {
+                XmlPullParser.END_TAG -> depth--
+                XmlPullParser.START_TAG -> depth++
+            }
+        }
+    }
+}

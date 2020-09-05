@@ -3,6 +3,8 @@ import okhttp3.*
 import java.io.IOException
 
 class RSSService {
+    // Make Changes
+
     fun fetchNews() {
         val url = "http://reflector-online.com/search/?f=rss&t=article&l=50&c=news/*"
         val request = Request.Builder().url(url).build()

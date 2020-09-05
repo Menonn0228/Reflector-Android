@@ -11,22 +11,10 @@ class RSSService {
         var test = XmlParser()
         var articles = mutableListOf<Article>()
 
-//        client.newCall(request).enqueue(object: Callback {
-//            override fun onResponse(call: Call, response: Response) {
-//                val body = response.body!!.byteStream()
-//                GlobalScope.launch {
-//                    articles = test.parse(body)
-//                }
-//
-//            }
-//
-//            override fun onFailure(call: Call, e: IOException) {
-//                println(e)
-//            }
-//        })
         client.newCall(request).execute().use { response ->
-            if (!response.isSuccessful) throw IOException("Unexpected code $response")
-
+            if (!response.isSuccessful) {
+                throw IOException("Unexpected code $response")
+            }
             val body = response.body!!.byteStream()
             articles = test.parse(body)
         }

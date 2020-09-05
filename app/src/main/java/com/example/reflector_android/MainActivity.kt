@@ -18,9 +18,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         GlobalScope.launch {
             val service = RSSService().fetchNews()
-            println(service[2])
+            println(service[2].description)
         }
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -38,5 +37,4 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

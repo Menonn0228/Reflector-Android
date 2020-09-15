@@ -1,11 +1,13 @@
 package com.example.reflector_android
+
 import com.example.reflector_android.network.Article
 import okhttp3.*
 import java.io.IOException
 
 class RSSService {
     suspend fun fetchNews(): MutableList<Article> {
-        val url = "http://reflector-online.com/search/?f=rss&t=article&s=start_time&sd=desc&l=5&c=news/*"
+        val url = "http://reflector-online.com/search/?f=rss&t=article&s=start_time&sd=desc&l=50&c=news/*"
+
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         var test = XmlParser()

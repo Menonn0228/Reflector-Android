@@ -5,12 +5,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 28
     defaultConfig {
         applicationId "com.example.reflector_android"
-        minSdkVersion 26
-        targetSdkVersion 29
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,15 +30,13 @@ android {
 }
 
 dependencies {
-    // Standard Dependencies
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation 'androidx.core:core-ktx:1.0.2'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'com.google.android.material:material:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
+    androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 
     // RecyclerView Dependencies and other 3rd party libraries
@@ -47,4 +44,18 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.8.1'
     implementation "org.jetbrains.kotlin:kotlin-script-runtime:1.3.72"
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.9'
+
+    // Card View
+    def cardview_version = "1.0.0"
+    implementation "androidx.cardview:cardview:$cardview_version"
+
+    // Recyclerview
+    def recyclerview_version = "1.0.0"
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_version"
+
+    //glide
+    def glide_version = "4.8.0"
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
+
 }

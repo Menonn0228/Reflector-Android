@@ -1,55 +1,35 @@
 package com.example.reflector_android.Models
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.request.RequestOptions
 import com.example.reflector_android.R
-import kotlinx.android.synthetic.main.article_list_item.view.*
+import com.example.reflector_android.network.Article
+import kotlinx.android.synthetic.main.article_item.view.*
 
-class BlogRecyclerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
-
-    private var items: List<BlogPost> = ArrayList()
+class BlogRecyclerAdapter(val articles: MutableList<Article>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
+        val layoutInflater = LayoutInflater.from(parent?.context)
+        val cellForRow = layoutInflater.inflate(R.layout.article_item, parent, false)
+
+        return CustomViewHolder(cellForRow)
     }
-
-
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
+        val article = articles.get(position)
+        holder?.itemView.textView_Article.text = article.description
+        holder?.itemView.Title.text = article.title
     }
 
     override fun getItemCount(): Int {
-        return items.size
-
+        return articles.size
     }
 
+    class CustomViewHolder(v: View): RecyclerView.ViewHolder(v){
 
-    class BlogViewHolder constructor(
-        itemView: View
-    ): RecyclerView.ViewHolder(itemView) {
-
-        val blog_image: ImageView = itemView.blog_image
-        val blog_title: TextView = itemView.blog_title
-
-        fun bind(blogPost: BlogPost){
-
-            blog_title.setText(blogPost.title)
-
-            val requestOptions = RequestOptions()
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.drawable.ic_launcher_background)
-            Glide.with(itemView.context)
-                .load(blogPost.image)
-                .into(blogImage)
-
-
-        }
     }
-
-
 }

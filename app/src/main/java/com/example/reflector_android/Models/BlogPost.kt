@@ -5,8 +5,5 @@ data class BlogPost(
     var title: String,
     var desc: String,
     var pubDate: String,
-    var link: String,
-    var creator: String)
-) {
-
-}
+    var link: String
+)

@@ -5,11 +5,10 @@ import com.example.reflector_android.Models.BlogPost
 // This is a test-dummy class and just generates dummy data.
 class DataSource {
 
-    class DataSource{
 
-        companion object{
+        companion object {
 
-            fun createDataSet(): ArrayList<BlogPost>{
+            fun createDataSet(): ArrayList<BlogPost> {
                 val list = ArrayList<BlogPost>()
                 list.add(
                     BlogPost(

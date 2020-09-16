@@ -8,7 +8,7 @@ import com.example.reflector_android.R
 import com.example.reflector_android.network.Article
 import kotlinx.android.synthetic.main.article_item.view.*
 
-class BlogRecyclerAdapter(val articles: MutableList<Article>) : RecyclerView.Adapter<RecyclerView.ViewHolder>(){
+class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
@@ -20,16 +20,14 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>) : RecyclerView.Ada
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        val article = articles.get(position)
-        holder?.itemView.textView_Article.text = article.description
-        holder?.itemView.Title.text = article.title
+        val article = articles?.get(position)
+        holder?.itemView.textView_Article.text = article?.description
+        holder?.itemView.Title.text = article?.title
     }
 
     override fun getItemCount(): Int {
-        return articles.size
+        return articles?.size ?: 0
     }
 
-    class CustomViewHolder(v: View): RecyclerView.ViewHolder(v){
-
-    }
+    class CustomViewHolder(v: View) : RecyclerView.ViewHolder(v) {}
 }

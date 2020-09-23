@@ -11,8 +11,6 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-// Sauce for how Nikhil made the RecyclerView: https://www.youtube.com/watch?v=Jo6Mtq7zkkg
-
 open class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,9 +19,9 @@ open class MainActivity : AppCompatActivity() {
         RecyclerView.layoutManager = LinearLayoutManager(this)
         //This sets the coroutine to make requesting the data async
         GlobalScope.launch {
-            val service = async { RSSService().fetchNews()}
+            val service = async { RSSService().fetchNews() }
             val finishedService = service.await()
-            runOnUiThread(){
+            runOnUiThread() {
                 //This updates the recycler view with our parsed data. This has to be ran on the ui thread
                 RecyclerView.adapter = BlogRecyclerAdapter(finishedService)
             }

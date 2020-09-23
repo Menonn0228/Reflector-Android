@@ -5,9 +5,8 @@ import okhttp3.*
 import java.io.IOException
 
 class RSSService {
-    suspend fun fetchNews(): MutableList<Article> {
+    suspend fun fetchNews(): MutableList<Article>? {
         val url = "http://reflector-online.com/search/?f=rss&t=article&s=start_time&sd=desc&l=50&c=news/*"
-
         val request = Request.Builder().url(url).build()
         val client = OkHttpClient()
         var test = XmlParser()
@@ -16,6 +15,10 @@ class RSSService {
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) {
                 throw IOException("Unexpected code $response")
+            }
+
+            if (response.body == null) {
+                return null
             }
             val body = response.body!!.byteStream()
             articles = test.parse(body)

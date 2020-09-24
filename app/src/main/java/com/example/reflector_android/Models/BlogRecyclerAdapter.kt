@@ -1,8 +1,10 @@
 package com.example.reflector_android.Models
 
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reflector_android.R
 import com.example.reflector_android.network.Article
@@ -18,11 +20,14 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
         return CustomViewHolder(cellForRow)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val article = articles?.get(position)
         holder?.itemView.textView_Article.text = article?.description
         holder?.itemView.Title.text = article?.title
+        holder?.itemView.Author.text = article?.author
+        holder?.itemView.pubDate.text = article?.pubDate.toString()
     }
 
     override fun getItemCount(): Int {

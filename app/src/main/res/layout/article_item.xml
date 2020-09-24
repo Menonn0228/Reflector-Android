@@ -3,39 +3,98 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:visibility="visible">
 
     <TextView
         android:id="@+id/Title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="358dp"
+        android:layout_height="128dp"
         android:fontFamily="sans-serif-black"
         android:text="TextView"
-        android:textSize="24sp"
+        android:textColor="#3A0202"
+        android:textSize="25sp"
         android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView_Article"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        android:layout_width="328dp"
+        android:layout_height="49dp"
+        android:text="article"
+        android:textColor="#000000"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="@+id/Title"
+        app:layout_constraintEnd_toEndOf="@+id/Title"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Title" />
+        app:layout_constraintTop_toTopOf="@+id/Title" />
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="192dp"
-        android:layout_marginEnd="219dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_Article" />
+
+    <TextView
+        android:id="@+id/author_name"
+
+        android:layout_width="88dp"
+        android:layout_height="30dp"
+        android:text="article_author"
+        android:textColor="#656161"
+        android:textSize="10dp"
+
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="93dp" />
+
+    <TextView
+        android:id="@+id/space_"
+        android:layout_width="19dp"
+        android:layout_height="30dp"
+        android:text="  |  "
+        android:textColor="#656161"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/author_name"
+        app:layout_constraintStart_toEndOf="@+id/author_name"
+        app:layout_constraintTop_toTopOf="@+id/author_name" />
+
+    <TextView
+        android:id="@+id/author_role"
+
+        android:layout_width="88dp"
+        android:layout_height="30dp"
+        android:text="article_author_role"
+        android:textColor="#656161"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/space_"
+        app:layout_constraintStart_toEndOf="@+id/space_"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Article"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/empty_space_"
+        android:layout_width="36dp"
+        android:layout_height="30dp"
+        android:text="     "
+        android:textSize="10sp"
+        android:textColor="#817F7F"
+        app:layout_constraintBottom_toBottomOf="@+id/author_role"
+        app:layout_constraintStart_toEndOf="@+id/author_role" />
+
+    <TextView
+        android:id="@+id/article_published_on"
+
+        android:layout_width="88dp"
+        android:layout_height="30dp"
+        android:text="Publish_date"
+        android:textColor="#656161"
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="@+id/empty_space_"
+        app:layout_constraintEnd_toEndOf="@+id/Title"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/empty_space_"
+        app:layout_constraintTop_toTopOf="@+id/empty_space_"
+        app:layout_constraintVertical_bias="0.0" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -36,6 +36,7 @@ class XmlParser {
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     suspend private fun readFeed(parser: XmlPullParser): MutableList<Article> {
         val items = mutableListOf<Article>()
 
@@ -102,13 +103,15 @@ class XmlParser {
         return link
     }
 
+    //processes the date tags into a date object
     @RequiresApi(Build.VERSION_CODES.O)
     @Throws(java.io.IOException::class, XmlPullParserException::class)
     private fun readPubDate(parser: XmlPullParser): LocalDate? {
         parser.require(XmlPullParser.START_TAG, nameSpace, Tags.pubDate)
-        //val pubDate = readText(parser)
+        // the first formatter is for the parser to parse the body data
         val formatter = DateTimeFormatter.ofPattern("EEE, dd MMM uuuu kk:mm:ss Z")
         val date = LocalDate.parse(readText(parser), formatter)
+        // the second formatter is to change the date into the desired format for the app
         val preferredFormatter = DateTimeFormatter.ofPattern("MM/dd/uuuu")
         date.format(preferredFormatter)
         parser.require(XmlPullParser.END_TAG, nameSpace, Tags.pubDate)

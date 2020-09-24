@@ -28,10 +28,6 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
         holder?.itemView.Title.text = article?.title
         holder?.itemView.Author.text = article?.author
         holder?.itemView.pubDate.text = article?.pubDate.toString()
-//        var day = article?.pubDate?.dayOfMonth.toString()
-//        var year = article?.pubDate?.year.toString()
-//        var month = article?.pubDate?.monthValue.toString()
-//        holder?.itemView.pubDate.text = month + "/" + day + "/" + year
     }
 
     override fun getItemCount(): Int {

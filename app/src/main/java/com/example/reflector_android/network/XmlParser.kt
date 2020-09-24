@@ -17,6 +17,7 @@ class XmlParser {
         const val description = "description"
         const val pubDate = "pubDate"
         const val link = "link"
+        const val author = "dc:creator"
     }
     private val nameSpace: String? = null
 
@@ -60,6 +61,7 @@ class XmlParser {
         var description: String? = null
         var pubDate: String? = null
         var link: String? = null
+        var author: String? = null
 
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.eventType != XmlPullParser.START_TAG) {
@@ -70,10 +72,11 @@ class XmlParser {
                 Tags.description -> description = readDescription(parser)
                 Tags.pubDate -> pubDate = readPubDate(parser)
                 Tags.link -> link = readLink(parser)
+                Tags.author -> author = readAuthor(parser)
                 else -> skip(parser)
             }
         }
-        return Article(title, description, pubDate, link)
+        return Article(title, description, pubDate, link, author)
     }
 
     //processes title tag
@@ -120,6 +123,15 @@ class XmlParser {
             parser.nextTag()
         }
         return result
+    }
+
+    //processes creator tag
+    @Throws(java.io.IOException::class, XmlPullParserException::class)
+    private fun readAuthor(parser: XmlPullParser): String {
+        parser.require(XmlPullParser.START_TAG, nameSpace, Tags.author)
+        val authors = readText(parser)
+        parser.require(XmlPullParser.END_TAG, nameSpace, Tags.author)
+        return authors
     }
 
     //skips tags we arent interested in

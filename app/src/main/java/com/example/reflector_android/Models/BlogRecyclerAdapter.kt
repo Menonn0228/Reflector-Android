@@ -23,6 +23,7 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
         val article = articles?.get(position)
         holder?.itemView.textView_Article.text = article?.description
         holder?.itemView.Title.text = article?.title
+        holder?.itemView.Author.text = article?.author
     }
 
     override fun getItemCount(): Int {

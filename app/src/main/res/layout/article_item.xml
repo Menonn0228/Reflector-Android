@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -32,11 +33,19 @@
 
     <TextView
         android:id="@+id/Author"
-        android:layout_width="0dp"
-        android:layout_height="22dp"
+        android:layout_width="123dp"
+        android:layout_height="21dp"
         android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_Article" />
+
+    <TextView
+        android:id="@+id/pubDate"
+        android:layout_width="133dp"
+        android:layout_height="24dp"
+        android:text="TextView"
+        android:textAlignment="textEnd"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView_Article" />
 
     <Space

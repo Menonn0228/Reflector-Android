@@ -1,12 +1,16 @@
 package com.example.reflector_android
 
+import android.os.Build
 import android.util.Xml
+import androidx.annotation.RequiresApi
 import com.example.reflector_android.network.Article
 import okio.IOException
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import java.io.InputStream
 import java.lang.IllegalStateException
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class XmlParser {
     companion object Tags {
@@ -54,12 +58,13 @@ class XmlParser {
 
     // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
     // to their respective "read" methods for processing. Otherwise, skips the tag.
+    @RequiresApi(Build.VERSION_CODES.O)
     @Throws(XmlPullParserException::class, java.io.IOException::class)
     suspend fun readItem(parser: XmlPullParser): Article {
         parser.require(XmlPullParser.START_TAG, nameSpace, Tags.item)
         var title: String? = null
         var description: String? = null
-        var pubDate: String? = null
+        var pubDate: LocalDate? = null
         var link: String? = null
         var author: String? = null
 
@@ -97,12 +102,17 @@ class XmlParser {
         return link
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Throws(java.io.IOException::class, XmlPullParserException::class)
-    private fun readPubDate(parser: XmlPullParser): String {
+    private fun readPubDate(parser: XmlPullParser): LocalDate? {
         parser.require(XmlPullParser.START_TAG, nameSpace, Tags.pubDate)
-        val pubDate = readText(parser)
+        //val pubDate = readText(parser)
+        val formatter = DateTimeFormatter.ofPattern("EEE, dd MMM uuuu kk:mm:ss Z")
+        val date = LocalDate.parse(readText(parser), formatter)
+        val preferredFormatter = DateTimeFormatter.ofPattern("MM/dd/uuuu")
+        date.format(preferredFormatter)
         parser.require(XmlPullParser.END_TAG, nameSpace, Tags.pubDate)
-        return pubDate
+        return date
     }
 
     //processes description tag

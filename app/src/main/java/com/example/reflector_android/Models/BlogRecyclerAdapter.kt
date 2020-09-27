@@ -11,7 +11,9 @@ import com.example.reflector_android.network.Article
 import kotlinx.android.synthetic.main.article_item.view.*
 
 class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
+    companion object {
+        var isLoading: Boolean = false
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
         val layoutInflater = LayoutInflater.from(parent?.context)
@@ -24,10 +26,26 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val article = articles?.get(position)
-        holder?.itemView.textView_Article.text = article?.description
-        holder?.itemView.Title.text = article?.title
-        holder?.itemView.Author.text = article?.author
-        holder?.itemView.pubDate.text = article?.pubDate.toString()
+
+        when (article?.isLoading){
+            false -> {
+                holder?.itemView.progressBar.visibility = View.INVISIBLE
+                holder?.itemView.textView_Article.text = article?.description
+                holder?.itemView.Title.text = article?.title
+                holder?.itemView.Author.text = article?.author
+                holder?.itemView.pubDate.text = article?.pubDate.toString()
+            }
+
+            true -> {
+                holder?.itemView.progressBar.visibility = View.VISIBLE
+                holder?.itemView.textView_Article.text = ""
+                holder?.itemView.Title.text = ""
+                holder?.itemView.Author.text = ""
+                holder?.itemView.pubDate.text = ""
+            }
+        }
+
+
     }
 
     override fun getItemCount(): Int {

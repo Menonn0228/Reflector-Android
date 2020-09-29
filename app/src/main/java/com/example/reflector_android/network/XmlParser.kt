@@ -68,7 +68,6 @@ class XmlParser {
         var pubDate: LocalDate? = null
         var link: String? = null
         var author: String? = null
-        var isLoading: Boolean? = false
 
         while (parser.next() != XmlPullParser.END_TAG) {
             if (parser.eventType != XmlPullParser.START_TAG) {
@@ -83,7 +82,7 @@ class XmlParser {
                 else -> skip(parser)
             }
         }
-        return Article(title, description, pubDate, link, author, isLoading)
+        return Article(title, description, pubDate, link, author)
     }
 
     //processes title tag

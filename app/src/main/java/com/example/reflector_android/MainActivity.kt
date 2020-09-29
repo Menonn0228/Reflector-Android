@@ -6,13 +6,12 @@ import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.reflector_android.Models.Article
 import com.example.reflector_android.Models.BlogRecyclerAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -60,14 +59,16 @@ open class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun addScrollerListener(articls: MutableList<com.example.reflector_android.network.Article>?){
-        RecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener(){
+    //This monitors where the user is in relation to the list. When they get to the end, the load function runs.
+    private fun addScrollerListener(articles: MutableList<com.example.reflector_android.network.Article>?) {
+        RecyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (!isLoading){
-                    if (layoutManager.findLastCompletelyVisibleItemPosition() == articls?.size?.minus(1)){
-                        loadMore(articls)
+                if (!isLoading) {
+                    var lastArticlePosition = articles?.size?.minus(1)
+                    if (layoutManager.findLastCompletelyVisibleItemPosition() == lastArticlePosition) {
+                        loadMoreArticles(articles)
                         isLoading = true
                     }
                 }
@@ -75,39 +76,62 @@ open class MainActivity : AppCompatActivity() {
         })
     }
 
+    //This loads more articles and adds them to the list and view
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun loadMore(articlesList: MutableList<com.example.reflector_android.network.Article>?){
-        var date: LocalDate? = null
+    private fun loadMoreArticles(list: MutableList<com.example.reflector_android.network.Article>?){
+        val delay: Long = 2500
+        val date: LocalDate? = null
+        if (list == null){
+            System.err.println("article list is null. please restart")
+            Toast.makeText(applicationContext, "An unexpected Error occurred. Please restart the app.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         RecyclerView.post(Runnable {
-            var nullArticle = com.example.reflector_android.network.Article("", "", date , "", "", isLoading)
-            articlesList?.add(nullArticle)
-            adapter.notifyItemInserted(articlesList?.size?.minus(1)!!)
+            val nullArticle = com.example.reflector_android.network.Article("", "", date , "", null)
+            list.add(nullArticle)
+            val listSize = list.size.minus(1)
+            if (listSize != 0){
+                adapter.notifyItemInserted(listSize)
+            }
         })
 
+        //delay to show the user that we are loading more articles
         RecyclerView.postDelayed(Runnable {
-            var loadingRemoved = articlesList?.size?.minus(1)
+            val loadingRemoved: Int?  = list.size.minus(1)
             GlobalScope.launch {
-                val service = async { RSSService().fetchMoreNews(articlesList?.size!!)}
+                val service = async { RSSService().fetchMoreNews(list.size)}
                 moreArticles = service.await()
-                if (loadingRemoved != null) {
+                if (loadingRemoved == null) {
+                    System.err.println("loadingRemoved is null")
                     runOnUiThread {
-                        articlesList?.removeAt(loadingRemoved)
+                        Toast.makeText(applicationContext, "An unexpected Error occurred. Please restart the app.", Toast.LENGTH_SHORT).show()
                     }
+                    return@launch
                 }
-                if (articlesList != null) {
+
+                runOnUiThread {
+                    list.removeAt(loadingRemoved)
+                    adapter.notifyItemRemoved(list.size)
+                }
+
+                if (moreArticles == null) {
+                    System.err.println("moreArticles is null")
                     runOnUiThread {
-                        adapter.notifyItemRemoved(articlesList.size)
+                        Toast.makeText(applicationContext, "An unexpected Error occurred. Please restart the app.", Toast.LENGTH_SHORT).show()
                     }
+
+                    return@launch
                 }
-                for (i in moreArticles!!){
+
+                for (i in moreArticles!!) {
                     runOnUiThread {
-                        articlesList?.add(i)
-                        adapter.notifyItemInserted(articlesList?.size?.minus(1)!!)
+                        list.add(i)
+                        adapter.notifyItemInserted(list.size.minus(1))
                     }
                 }
                 isLoading = false
             }
-
-        }, 2500)
+        }, delay)
     }
 }

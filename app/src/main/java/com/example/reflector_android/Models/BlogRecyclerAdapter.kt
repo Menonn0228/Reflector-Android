@@ -27,25 +27,22 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
 
         val article = articles?.get(position)
 
-        when (article?.isLoading){
-            false -> {
-                holder?.itemView.progressBar.visibility = View.INVISIBLE
-                holder?.itemView.textView_Article.text = article?.description
-                holder?.itemView.Title.text = article?.title
-                holder?.itemView.Author.text = article?.author
-                holder?.itemView.pubDate.text = article?.pubDate.toString()
-            }
-
-            true -> {
+        when (article?.author) {
+            null -> {
                 holder?.itemView.progressBar.visibility = View.VISIBLE
                 holder?.itemView.textView_Article.text = ""
                 holder?.itemView.Title.text = ""
                 holder?.itemView.Author.text = ""
                 holder?.itemView.pubDate.text = ""
             }
+            else -> {
+                holder?.itemView.progressBar.visibility = View.GONE
+                holder?.itemView.textView_Article.text = article?.description
+                holder?.itemView.Title.text = article?.title
+                holder?.itemView.Author.text = article?.author
+                holder?.itemView.pubDate.text = article?.pubDate.toString()
+            }
         }
-
-
     }
 
     override fun getItemCount(): Int {

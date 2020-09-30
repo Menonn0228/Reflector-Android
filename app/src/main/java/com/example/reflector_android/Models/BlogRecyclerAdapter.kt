@@ -30,14 +30,14 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
         when (article?.author) {
             null -> {
                 holder?.itemView.progressBar.visibility = View.VISIBLE
-                holder?.itemView.textView_Article.text = ""
+                holder?.itemView.Description.text = ""
                 holder?.itemView.Title.text = ""
                 holder?.itemView.Author.text = ""
                 holder?.itemView.pubDate.text = ""
             }
             else -> {
                 holder?.itemView.progressBar.visibility = View.GONE
-                holder?.itemView.textView_Article.text = article?.description
+                holder?.itemView.Description.text = article?.description
                 holder?.itemView.Title.text = article?.title
                 holder?.itemView.Author.text = article?.author
                 holder?.itemView.pubDate.text = article?.pubDate.toString()

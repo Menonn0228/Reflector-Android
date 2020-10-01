@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/Title"
+        android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/Description"
+        android:id="@+id/description"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -32,16 +32,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Title" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
-        android:id="@+id/Author"
+        android:id="@+id/author"
         android:layout_width="123dp"
         android:layout_height="21dp"
         android:text="TextView"
         android:textColor="#636262"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Description" />
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <TextView
         android:id="@+id/pubDate"
@@ -51,7 +51,7 @@
         android:textAlignment="textEnd"
         android:textColor="#636262"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Description" />
+        app:layout_constraintTop_toBottomOf="@+id/description" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -59,9 +59,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/Description"
+        app:layout_constraintEnd_toEndOf="@+id/description"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/Title" />
+        app:layout_constraintTop_toTopOf="@+id/title" />
 
     <Space
         android:id="@+id/space"
@@ -69,6 +69,6 @@
         android:layout_height="25dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Author" />
+        app:layout_constraintTop_toBottomOf="@+id/author" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

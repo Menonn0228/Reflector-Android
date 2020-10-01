@@ -16,7 +16,7 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
 
-        val layoutInflater = LayoutInflater.from(parent?.context)
+        val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.article_item, parent, false)
 
         return CustomViewHolder(cellForRow)
@@ -29,24 +29,24 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
 
         when (article?.author) {
             null -> {
-                holder?.itemView.progressBar.visibility = View.VISIBLE
-                holder?.itemView.Description.text = ""
-                holder?.itemView.Title.text = ""
-                holder?.itemView.Author.text = ""
-                holder?.itemView.pubDate.text = ""
+                holder.itemView.progressBar.visibility = View.VISIBLE
+                holder.itemView.description.text = ""
+                holder.itemView.title.text = ""
+                holder.itemView.author.text = ""
+                holder.itemView.pubDate.text = ""
             }
             else -> {
-                holder?.itemView.progressBar.visibility = View.GONE
-                holder?.itemView.Description.text = article?.description
-                holder?.itemView.Title.text = article?.title
-                holder?.itemView.Author.text = article?.author
-                holder?.itemView.pubDate.text = article?.pubDate.toString()
+                holder.itemView.progressBar.visibility = View.GONE
+                holder.itemView.description.text = article.description
+                holder.itemView.title.text = article.title
+                holder.itemView.author.text = article.author
+                holder.itemView.pubDate.text = article.pubDate.toString()
             }
         }
     }
 
     override fun getItemCount(): Int {
-        return articles?.size ?: 0
+        return articles?.size?: 0
     }
 
     class CustomViewHolder(v: View) : RecyclerView.ViewHolder(v) {}

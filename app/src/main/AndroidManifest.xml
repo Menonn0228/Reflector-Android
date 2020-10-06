@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Models.webviewActivity">
+            android:name=".Models.WebviewActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Models.webviewActivity"/>
+                android:value=".Models.WebviewActivity"/>
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>

@@ -1,11 +1,9 @@
 package com.example.reflector_android.Models
 
 import android.content.Intent
-import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reflector_android.R
 import com.example.reflector_android.network.Article
@@ -54,14 +52,13 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
 
 class CustomViewHolder(val customView: View, var url: Article? = null) : RecyclerView.ViewHolder(customView) {
         companion object {
-            val articleUrl = "articleUrl"
+            const val articleUrl = "articleUrl"
         }
 
         init {
             customView.setOnClickListener {
                 println("you clicked the article")
-
-                val intent = Intent(customView.context, webviewActivity::class.java)
+                val intent = Intent(customView.context, WebviewActivity::class.java)
                 intent.putExtra(articleUrl, url?.link)
                 customView.context.startActivity(intent)
             }

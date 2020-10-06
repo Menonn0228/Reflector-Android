@@ -1,5 +1,6 @@
 package com.example.reflector_android.Models
 
+import android.content.Intent
 import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
@@ -10,11 +11,12 @@ import com.example.reflector_android.R
 import com.example.reflector_android.network.Article
 import kotlinx.android.synthetic.main.article_item.view.*
 
-class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Adapter<CustomViewHolder>() {
     companion object {
         var isLoading: Boolean = false
     }
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
 
         val layoutInflater = LayoutInflater.from(parent.context)
         val cellForRow = layoutInflater.inflate(R.layout.article_item, parent, false)
@@ -22,32 +24,46 @@ class BlogRecyclerAdapter(val articles: MutableList<Article>?) : RecyclerView.Ad
         return CustomViewHolder(cellForRow)
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
+    override fun getItemCount(): Int {
+        return articles?.size ?: 0
+    }
+
+    override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
         val article = articles?.get(position)
 
         when (article?.author) {
             null -> {
-                holder.itemView.progressBar.visibility = View.VISIBLE
-                holder.itemView.description.text = ""
-                holder.itemView.title.text = ""
-                holder.itemView.author.text = ""
-                holder.itemView.pubDate.text = ""
+                holder.customView.progressBar.visibility = View.VISIBLE
+                holder.customView.description.text = ""
+                holder.customView.title.text = ""
+                holder.customView.author.text = ""
+                holder.customView.pubDate.text = ""
             }
             else -> {
-                holder.itemView.progressBar.visibility = View.GONE
-                holder.itemView.description.text = article.description
-                holder.itemView.title.text = article.title
-                holder.itemView.author.text = article.author
-                holder.itemView.pubDate.text = article.pubDate.toString()
+                holder.customView.progressBar.visibility = View.GONE
+                holder.customView.description.text = article.description
+                holder.customView.title.text = article.title
+                holder.customView.author.text = article.author
+                holder.customView.pubDate.text = article.pubDate.toString()
+                holder.url = article
             }
         }
     }
-
-    override fun getItemCount(): Int {
-        return articles?.size?: 0
-    }
-
-    class CustomViewHolder(v: View) : RecyclerView.ViewHolder(v) {}
 }
+
+class CustomViewHolder(val customView: View, var url: Article? = null) : RecyclerView.ViewHolder(customView) {
+        companion object {
+            val articleUrl = "articleUrl"
+        }
+
+        init {
+            customView.setOnClickListener {
+                println("you clicked the article")
+
+                val intent = Intent(customView.context, webviewActivity::class.java)
+                intent.putExtra(articleUrl, url?.link)
+                customView.context.startActivity(intent)
+            }
+        }
+    }

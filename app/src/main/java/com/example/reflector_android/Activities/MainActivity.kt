@@ -1,4 +1,4 @@
-package com.example.reflector_android
+package com.example.reflector_android.Activities
 
 import android.os.Build
 import android.os.Bundle
@@ -10,7 +10,9 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.reflector_android.Models.BlogRecyclerAdapter
+import com.example.reflector_android.Adapters.BlogRecyclerAdapter
+import com.example.reflector_android.R
+import com.example.reflector_android.RSSService
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async

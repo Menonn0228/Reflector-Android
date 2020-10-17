@@ -61,4 +61,18 @@
 
     </com.google.android.material.tabs.TabLayout>
 
+    <TextView
+        android:id="@+id/reflectorTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="The Reflector"
+        android:textColor="#FFFFFF"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        tools:text="The Reflector" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

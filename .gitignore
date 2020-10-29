@@ -59,3 +59,5 @@ libraries/tools/kotlin-source-map-loader/lib/
 local.properties
 /.idea/caches/build_file_checksums.ser
 /.idea/caches/build_file_checksums.ser~10143aedddb53ceb2efde9f1d34dd04676583276
+
+.idea/dictionaries/

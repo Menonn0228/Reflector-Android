@@ -1,4 +1,4 @@
-package com.example.reflector_android.Models
+package com.example.reflector_android.models
 
 
 // The Article class is a model that represents the data that an Article in the Reflector would have.

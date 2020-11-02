@@ -11,7 +11,7 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".activities.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" >
             <intent-filter>
@@ -21,9 +21,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.WebviewActivity">
+            android:name=".activities.WebviewActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".Activities.WebviewActivity"/>
+                android:value=".activities.WebviewActivity"/>
         </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>

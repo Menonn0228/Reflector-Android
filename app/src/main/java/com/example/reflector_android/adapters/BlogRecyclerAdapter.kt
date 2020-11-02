@@ -1,13 +1,11 @@
-package com.example.reflector_android.Adapters
+package com.example.reflector_android.adapters
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.reflector_android.Activities.WebviewActivity
 import com.example.reflector_android.R
-import com.example.reflector_android.ViewHolders.ArticleListViewHolder
+import com.example.reflector_android.viewHolders.ArticleListViewHolder
 import com.example.reflector_android.network.Article
 import kotlinx.android.synthetic.main.article_item.view.*
 

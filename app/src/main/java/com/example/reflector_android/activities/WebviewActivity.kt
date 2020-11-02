@@ -1,11 +1,11 @@
-package com.example.reflector_android.Activities
+package com.example.reflector_android.activities
 
 import android.os.Bundle
 import android.view.View
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.appcompat.app.AppCompatActivity
-import com.example.reflector_android.ViewHolders.ArticleListViewHolder
+import com.example.reflector_android.viewHolders.ArticleListViewHolder
 
 
 class WebviewActivity(): AppCompatActivity() {

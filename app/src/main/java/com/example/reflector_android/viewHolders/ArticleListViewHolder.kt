@@ -1,9 +1,9 @@
-package com.example.reflector_android.ViewHolders
+package com.example.reflector_android.viewHolders
 
 import android.content.Intent
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import com.example.reflector_android.Activities.WebviewActivity
+import com.example.reflector_android.activities.WebviewActivity
 import com.example.reflector_android.network.Article
 
 class ArticleListViewHolder(val customView: View, var url: Article? = null) : RecyclerView.ViewHolder(customView) {

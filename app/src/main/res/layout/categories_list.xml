@@ -18,14 +18,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RecyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/CategoryRecyclerView"
+        android:layout_width="387dp"
+        android:layout_height="646dp"
+        android:layout_marginBottom="20dp"
+        android:clickable="true"
+        android:hapticFeedbackEnabled="true"
         app:layout_constraintBottom_toTopOf="@id/tab_layout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.0">
 
     </androidx.recyclerview.widget.RecyclerView>
 
@@ -60,17 +63,17 @@
     </com.google.android.material.tabs.TabLayout>
 
     <TextView
-        android:id="@+id/reflectorTitle"
+        android:id="@+id/categoryTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginBottom="8dp"
         android:fontFamily="sans-serif-condensed-medium"
-        android:text="The Reflector"
+        android:text="Categories"
         android:textColor="#FFFFFF"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="@+id/toolbar"
         app:layout_constraintStart_toStartOf="@+id/toolbar"
-        tools:text="The Reflector" />
+        tools:text="Categories" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

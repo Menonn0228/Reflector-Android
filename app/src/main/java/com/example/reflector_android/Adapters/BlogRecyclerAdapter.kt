@@ -1,4 +1,4 @@
-package com.example.reflector_android.Adapters
+ package com.example.reflector_android.Adapters
 
 import android.content.Intent
 import android.view.LayoutInflater

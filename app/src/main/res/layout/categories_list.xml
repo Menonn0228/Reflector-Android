@@ -34,5 +34,5 @@
         android:fitsSystemWindows="true"
         app:menu="@menu/nav_navdrawermenu"
         app:theme="@style/small_text"/>
-    
+
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -147,25 +147,4 @@ class CategoryListActivity(): AppCompatActivity()  {
             }
         }, delay)
     }
-
-//    fun getCategory(categoryID: String): String {
-//        if (categoryID == CategoryIdentifier.covid19.tag){
-//            return "COVID-19"
-//        }
-//        if (categoryID == CategoryIdentifier.life.tag){
-//            return "Life and Entertainment"
-//        }
-//        if (categoryID == CategoryIdentifier.news.tag){
-//            return "News"
-//        }
-//        if (categoryID == CategoryIdentifier.opinion.tag){
-//            return "Opinion"
-//        }
-//        if (categoryID == CategoryIdentifier.sports.tag){
-//            return "Sports"
-//        }
-//        else {
-//            return "Reflector"
-//        }
-//    }
 }

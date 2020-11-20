@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reflector_android.Adapters.BlogRecyclerAdapter
+import com.example.reflector_android.Models.CategoryIdentifier
 import com.example.reflector_android.R
 import com.example.reflector_android.RSSService
 import com.example.reflector_android.ViewHolders.CategoryListViewHolder
@@ -23,19 +24,21 @@ import java.time.LocalDate
 class CategoryListActivity(): AppCompatActivity()  {
     lateinit var  layoutManager: LinearLayoutManager
     lateinit var adapter: BlogRecyclerAdapter
-    lateinit var category: String
+    lateinit var category: CategoryIdentifier
     var articles: MutableList<com.example.reflector_android.network.Article>? = null
     var moreArticles: MutableList<com.example.reflector_android.network.Article>? = null
     var isLoading = BlogRecyclerAdapter.isLoading
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.category_articles)
-        category = intent.getStringExtra(CategoryListViewHolder.category)
+        category = intent.getSerializableExtra("categoryID") as CategoryIdentifier
         val myActionBar: ActionBar? = supportActionBar
 
         if (myActionBar != null) {
-            myActionBar.title = getCategory(category)
+            myActionBar.title = category.title
         }
 
         RecyclerView.layoutManager = LinearLayoutManager(this)
@@ -110,7 +113,7 @@ class CategoryListActivity(): AppCompatActivity()  {
         RecyclerView.postDelayed(Runnable {
             val loadingRemoved: Int?  = list.size.minus(1)
             GlobalScope.launch {
-                val service = async { RSSService().fetchMoreNews(list.size , category)}
+                val service = async { RSSService().fetchMoreNews(list.size , category.tag)}
                 moreArticles = service.await()
                 if (loadingRemoved == null) {
                     System.err.println("loadingRemoved is null")
@@ -145,24 +148,24 @@ class CategoryListActivity(): AppCompatActivity()  {
         }, delay)
     }
 
-    fun getCategory(categoryID: String): String {
-        if (categoryID == "covid-19"){
-            return "COVID-19"
-        }
-        if (categoryID == "life"){
-            return "Life and Entertainment"
-        }
-        if (categoryID == "news"){
-            return "News"
-        }
-        if (categoryID == "opinion"){
-            return "Opinion"
-        }
-        if (categoryID == "sports"){
-            return "Sports"
-        }
-        else {
-            return "Reflector"
-        }
-    }
+//    fun getCategory(categoryID: String): String {
+//        if (categoryID == CategoryIdentifier.covid19.tag){
+//            return "COVID-19"
+//        }
+//        if (categoryID == CategoryIdentifier.life.tag){
+//            return "Life and Entertainment"
+//        }
+//        if (categoryID == CategoryIdentifier.news.tag){
+//            return "News"
+//        }
+//        if (categoryID == CategoryIdentifier.opinion.tag){
+//            return "Opinion"
+//        }
+//        if (categoryID == CategoryIdentifier.sports.tag){
+//            return "Sports"
+//        }
+//        else {
+//            return "Reflector"
+//        }
+//    }
 }

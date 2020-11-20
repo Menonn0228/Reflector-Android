@@ -1,51 +1,49 @@
 package com.example.reflector_android.Activities
 
-import android.content.Intent
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.reflector_android.Adapters.BlogRecyclerAdapter
-import com.example.reflector_android.Adapters.CategoryRecyclerAdapter
 import com.example.reflector_android.R
 import com.example.reflector_android.RSSService
-import com.example.reflector_android.ViewHolders.ArticleListViewHolder
+import com.example.reflector_android.ViewHolders.CategoryListViewHolder
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.categories_list.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-open class MainActivity : AppCompatActivity() {
-    lateinit var toggle: ActionBarDrawerToggle
-    var handler: Handler = Handler()
+class CategoryListActivity(): AppCompatActivity()  {
     lateinit var  layoutManager: LinearLayoutManager
-    lateinit var Categoryadapter: CategoryRecyclerAdapter
     lateinit var adapter: BlogRecyclerAdapter
+    lateinit var category: String
     var articles: MutableList<com.example.reflector_android.network.Article>? = null
     var moreArticles: MutableList<com.example.reflector_android.network.Article>? = null
     var isLoading = BlogRecyclerAdapter.isLoading
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //---------------change this back-------------------
-        setContentView(R.layout.categories_list)
-        CategoryRecyclerView.layoutManager = LinearLayoutManager(this)
-        layoutManager = CategoryRecyclerView.layoutManager as LinearLayoutManager
-        CategoryRecyclerView.adapter = CategoryRecyclerAdapter()
-        Categoryadapter = CategoryRecyclerView.adapter as CategoryRecyclerAdapter
-        //--------------------------------------------------
+        setContentView(R.layout.category_articles)
+        category = intent.getStringExtra(CategoryListViewHolder.category)
+        val myActionBar: ActionBar? = supportActionBar
+
+        if (myActionBar != null) {
+            myActionBar.title = getCategory(category)
+        }
+
+        RecyclerView.layoutManager = LinearLayoutManager(this)
+        layoutManager = RecyclerView.layoutManager as LinearLayoutManager
 
         //This sets the coroutine to make requesting the data async
         GlobalScope.launch {
-            val service = async { RSSService().fetchNews() }
+            val service = async { RSSService().fetchNewsbyCategory(category) }
             articles = service.await()
             runOnUiThread() {
                 //This updates the recycler view with our parsed data. This has to be ran on the ui thread
@@ -54,23 +52,22 @@ open class MainActivity : AppCompatActivity() {
                 addScrollerListener(articles)
             }
         }
-        setUpNavigationDrawer()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        if (toggle.onOptionsItemSelected(item)) {
-            return true
+        return when(item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     //This monitors where the user is in relation to the list. When they get to the end, the load function runs.
@@ -80,7 +77,7 @@ open class MainActivity : AppCompatActivity() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (!isLoading) {
-                    var lastArticlePosition = articles?.size?.minus(1)
+                    val lastArticlePosition = articles?.size?.minus(1)
                     if (layoutManager.findLastCompletelyVisibleItemPosition() == lastArticlePosition) {
                         loadMoreArticles(articles)
                         isLoading = true
@@ -89,10 +86,10 @@ open class MainActivity : AppCompatActivity() {
             }
         })
     }
-//
+
     //This loads more articles and adds them to the list and view
     @RequiresApi(Build.VERSION_CODES.O)
-    private fun loadMoreArticles(list: MutableList<com.example.reflector_android.network.Article>?){
+    private fun loadMoreArticles(list: MutableList<com.example.reflector_android.network.Article>?) {
         val delay: Long = 2500
         val date: LocalDate? = null
         if (list == null){
@@ -114,7 +111,7 @@ open class MainActivity : AppCompatActivity() {
         RecyclerView.postDelayed(Runnable {
             val loadingRemoved: Int?  = list.size.minus(1)
             GlobalScope.launch {
-                val service = async { RSSService().fetchMoreNews(list.size , null)}
+                val service = async { RSSService().fetchMoreNews(list.size , category)}
                 moreArticles = service.await()
                 if (loadingRemoved == null) {
                     System.err.println("loadingRemoved is null")
@@ -149,22 +146,24 @@ open class MainActivity : AppCompatActivity() {
         }, delay)
     }
 
-    private fun setUpNavigationDrawer() {
-        toggle = ActionBarDrawerToggle(this, dl_drawer_layout, R.string.open,R.string.close)
-        dl_drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        nv_navView.setNavigationItemSelectedListener {
-            when (it.itemId) {
-                R.id.nav_home -> {
-                    val intent = Intent(this, MainActivity::class.java)
-                    finish()
-                    this.startActivity(intent)
-                }
-                R.id.nav_categories -> Toast.makeText(this, "Categories clicked", Toast.LENGTH_SHORT).show()
-            }
-            true
+    fun getCategory(categoryID: String): String {
+        if (categoryID == "covid-19"){
+            return "COVID-19"
+        }
+        if (categoryID == "life"){
+            return "Life and Entertainment"
+        }
+        if (categoryID == "news"){
+            return "News"
+        }
+        if (categoryID == "opinion"){
+            return "Opinion"
+        }
+        if (categoryID == "sports"){
+            return "Sports"
+        }
+        else {
+            return "Reflector"
         }
     }
 }

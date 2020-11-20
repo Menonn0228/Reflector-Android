@@ -25,6 +25,11 @@
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".Activities.WebviewActivity"/>
         </activity>
+        <activity
+            android:name=".Activities.CategoryListActivity">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                android:value=".Activities.CategoryListActivity"/>
+        </activity>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

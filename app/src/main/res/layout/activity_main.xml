@@ -34,9 +34,10 @@
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
-        app:headerLayout="@layout/main_header"
         app:menu="@menu/nav_navdrawermenu"
         app:theme="@style/small_text"/>
+<!--        app:headerLayout="@layout/main_header"-->
+
 
 
 

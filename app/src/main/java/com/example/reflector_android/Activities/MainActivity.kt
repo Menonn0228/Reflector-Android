@@ -26,22 +26,16 @@ import java.time.LocalDate
 
 open class MainActivity : AppCompatActivity() {
     lateinit var toggle: ActionBarDrawerToggle
-    var handler: Handler = Handler()
     lateinit var  layoutManager: LinearLayoutManager
-    lateinit var Categoryadapter: CategoryRecyclerAdapter
     lateinit var adapter: BlogRecyclerAdapter
     var articles: MutableList<com.example.reflector_android.network.Article>? = null
     var moreArticles: MutableList<com.example.reflector_android.network.Article>? = null
     var isLoading = BlogRecyclerAdapter.isLoading
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //---------------change this back-------------------
-        setContentView(R.layout.categories_list)
-        CategoryRecyclerView.layoutManager = LinearLayoutManager(this)
-        layoutManager = CategoryRecyclerView.layoutManager as LinearLayoutManager
-        CategoryRecyclerView.adapter = CategoryRecyclerAdapter()
-        Categoryadapter = CategoryRecyclerView.adapter as CategoryRecyclerAdapter
-        //--------------------------------------------------
+        setContentView(R.layout.activity_main)
+        RecyclerView.layoutManager = LinearLayoutManager(this)
+        layoutManager = RecyclerView.layoutManager as LinearLayoutManager
 
         //This sets the coroutine to make requesting the data async
         GlobalScope.launch {
@@ -57,11 +51,6 @@ open class MainActivity : AppCompatActivity() {
         setUpNavigationDrawer()
     }
 
-//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        menuInflater.inflate(R.menu.menu_main, menu)
-//        return true
-//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
@@ -162,7 +151,11 @@ open class MainActivity : AppCompatActivity() {
                     finish()
                     this.startActivity(intent)
                 }
-                R.id.nav_categories -> Toast.makeText(this, "Categories clicked", Toast.LENGTH_SHORT).show()
+                R.id.nav_categories -> {
+                    val intent = Intent(this, CategoryActivity::class.java)
+                    finish()
+                    this.startActivity(intent)
+                }
             }
             true
         }
